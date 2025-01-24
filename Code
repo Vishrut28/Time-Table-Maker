@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table Maker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        input {
+            width: 100%;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Time Table Maker</h2>
+    <table id="timetable">
+        <tr>
+            <th>Day</th>
+            <th>8:00 - 9:00</th>
+            <th>9:00 - 10:00</th>
+            <th>10:00 - 11:00</th>
+            <th>11:00 - 12:00</th>
+            <th>1:00 - 2:00</th>
+            <th>2:00 - 3:00</th>
+            <th>3:00 - 4:00</th>
+        </tr>
+        <tr><td>Monday</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>Tuesday</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>Wednesday</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>Thursday</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>Friday</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>Saturday</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    </table>
+    <button onclick="saveTimeTable()">Save Time Table</button>
+
+    <script>
+        function saveTimeTable() {
+            let table = document.getElementById('timetable');
+            let rows = table.rows;
+            let data = [];
+            for (let i = 1; i < rows.length; i++) {
+                let rowData = [];
+                let cells = rows[i].cells;
+                for (let j = 1; j < cells.length; j++) {
+                    rowData.push(cells[j].innerText);
+                }
+                data.push(rowData);
+            }
+            localStorage.setItem('timeTableData', JSON.stringify(data));
+            alert('Time Table Saved!');
+        }
+
+        window.onload = function() {
+            let savedData = localStorage.getItem('timeTableData');
+            if (savedData) {
+                savedData = JSON.parse(savedData);
+                let table = document.getElementById('timetable');
+                let rows = table.rows;
+                for (let i = 1; i < rows.length; i++) {
+                    let cells = rows[i].cells;
+                    for (let j = 1; j < cells.length; j++) {
+                        cells[j].innerText = savedData[i - 1][j - 1];
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
